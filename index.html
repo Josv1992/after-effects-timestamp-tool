@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        const inputString = "00:00 Crypsis - The 6th Pathway\n03:40 Zany - Freakz\n06:07 A-Lusion - Freeek It Up\n08:16 Hunter - Sweetie (Tuneboy Remix)";
+        const FPS = 60;
+
+        const processTracklist = (input) => {
+            let outputString = '';
+
+            const lines = input.split('\n');
+
+            const lastLine = lines[lines.length - 1].split(' ').slice(1).join(' ').trimStart();
+
+            for (let i = 0; i < lines.length - 1; i++) {
+                const line = lines[i];
+                const firstSpaceIndex = line.indexOf(' ');
+
+                const timestamp = convertTimeToFrames(lines[i + 1].split(' ')[0]);
+                const trackName = line.slice(firstSpaceIndex + 1).trim();
+
+                outputString += `if (t < ${timestamp}) {
+    "${trackName}"
+} else `;
+            }
+
+            outputString += `{
+    "${lastLine}"
+}`;
+            return outputString;
+
+        }
+
+
+        function convertTimeToFrames(time) {
+            let [minutes, seconds] = time.split(':');
+            return parseInt(minutes) * 60 * FPS + parseInt(seconds) * FPS;
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const outputDiv = document.getElementById('outputDiv');
+
+            const inputTextArea = document.getElementById('inputTextArea');
+            const processButton = document.getElementById('processButton');
+
+            processButton.addEventListener('click', () => {
+                outputDiv.innerText = processTracklist(inputTextArea.value);
+                console.log('click');
+            })
+        });
+
+    </script>
+</head>
+<body>
+<div style="display: flex; flex-direction: column; width: 500px;">
+    <label for="inputTextArea">Input:</label><textarea id="inputTextArea" name="tracklist" rows="25" cols="50" placeholder="tracklist"></textarea>
+    <button style="width: 160px; margin: 10px auto; cursor: pointer" id="processButton">Process</button>
+</div>
+
+<pre>
+    <code id="outputDiv">
+
+    </code>
+</pre>
+
+</body>
+</html>
