@@ -30,7 +30,6 @@
     "${lastLine}"
 }`;
             return outputString;
-
         }
 
 
@@ -45,26 +44,70 @@
 
             const inputTextArea = document.getElementById('inputTextArea');
             const processButton = document.getElementById('processButton');
+            const copyButton = document.getElementById('copyButton');
 
             processButton.addEventListener('click', () => {
                 outputDiv.innerText = processTracklist(inputTextArea.value);
-                console.log('click');
-            })
+                copyButton.style.visibility = 'visible';
+            });
         });
+
+        function copyToClipboard() {
+            const outputDiv = document.getElementById('outputDiv');
+            const textToCopy = outputDiv.innerText;
+
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    showNotification('Result copied to clipboard!', 'success');
+                })
+                .catch(err => {
+                    showNotification(err, 'error');
+                });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = message;
+
+            if (type === 'success') {
+                notification.style.backgroundColor = '#8dd088';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#a25656';
+            }
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 1000);
+        }
 
     </script>
 </head>
+<link href="/css/style.css" rel="stylesheet" type="text/css" />
+
 <body>
-<div style="display: flex; flex-direction: column; width: 500px;">
-    <label for="inputTextArea">Input:</label><textarea id="inputTextArea" name="tracklist" rows="25" cols="50" placeholder="tracklist"></textarea>
-    <button style="width: 160px; margin: 10px auto; cursor: pointer" id="processButton">Process</button>
+
+<div class="container">
+    <label for="inputTextArea">Input:</label>
+    <textarea id="inputTextArea" name="tracklist" rows="10" cols="50" placeholder="Tracklist"></textarea>
+    <button id="processButton">Process</button>
+
+    <p>Result:</p>
+    <div class="output-container">
+    <pre>
+        <code id="outputDiv">
+
+        </code>
+    </pre>
+    </div>
+    <button class="copy-button" id="copyButton" onclick="copyToClipboard()">Copy To Clipboard</button>
 </div>
 
-<pre>
-    <code id="outputDiv">
 
-    </code>
-</pre>
 
 </body>
 </html>
