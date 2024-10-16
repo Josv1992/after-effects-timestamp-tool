@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
     <script>
-        const inputString = "00:00 Crypsis - The 6th Pathway\n03:40 Zany - Freakz\n06:07 A-Lusion - Freeek It Up\n08:16 Hunter - Sweetie (Tuneboy Remix)";
-        const FPS = 60;
+        const FPS = 30;
 
         const processTracklist = (input) => {
             let outputString = '';
+
+            input = input.trim();
 
             const lines = input.split('\n');
 
@@ -21,23 +25,32 @@
                 const timestamp = convertTimeToFrames(lines[i + 1].split(' ')[0]);
                 const trackName = line.slice(firstSpaceIndex + 1).trim();
 
-                outputString += `if (t < ${timestamp}) {
-    "${trackName}"
-} else `;
+                outputString += `if (t < ${timestamp}) {\n    "${trackName}"\n} else `;
             }
 
-            outputString += `{
-    "${lastLine}"
-}`;
+            outputString += `{\n    "${lastLine}"\n}`;
             return outputString;
         }
 
-
         function convertTimeToFrames(time) {
-            let [minutes, seconds] = time.split(':');
-            return parseInt(minutes) * 60 * FPS + parseInt(seconds) * FPS;
+            let semiColons = time.split(':').length - 1;
+            if (semiColons === 1) {
+                let [minutes, seconds] = time.split(':');
+                return parseInt(minutes) * 60 * FPS + parseInt(seconds) * FPS;
+            } else if (semiColons === 2) {
+                let [hours, minutes, seconds] = time.split(':');
+                return (parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds)) * FPS;
+            }
         }
 
+        function escapeHtml(input) {
+            return input
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             const outputDiv = document.getElementById('outputDiv');
@@ -47,7 +60,9 @@
             const copyButton = document.getElementById('copyButton');
 
             processButton.addEventListener('click', () => {
-                outputDiv.innerText = processTracklist(inputTextArea.value);
+                const output = processTracklist(inputTextArea.value);
+                outputDiv.innerHTML = escapeHtml(output);
+                hljs.highlightElement(outputDiv);
                 copyButton.style.visibility = 'visible';
             });
         });
@@ -98,16 +113,10 @@
 
     <p>Result:</p>
     <div class="output-container">
-    <pre>
-        <code id="outputDiv">
-
-        </code>
-    </pre>
+        <pre id="outputDiv" class="code-text-field javascript"></pre> <!-- Changed to <pre> for preserving line breaks -->
     </div>
     <button class="copy-button" id="copyButton" onclick="copyToClipboard()">Copy To Clipboard</button>
 </div>
-
-
 
 </body>
 </html>

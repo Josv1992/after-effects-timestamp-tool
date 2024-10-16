@@ -19,7 +19,7 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 550px;
     background-color: #3b4252;
     padding: 20px;
     border-radius: 8px;
@@ -56,7 +56,7 @@ button {
 }
 
 .output-container {
-    background-color: #2e3440;
+    background-color: #282c34;
     padding: 20px;
     border-radius: 8px;
 }
@@ -81,4 +81,10 @@ code {
     opacity: 0.8;
     transition: opacity 0.3s ease-in-out;
     z-index: 999;
+}
+
+.code-text-field {
+    margin-top: 0;
+    margin-bottom: 0;
+    white-space: pre;
 }
