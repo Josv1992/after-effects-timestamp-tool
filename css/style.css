@@ -27,8 +27,13 @@ body {
 }
 
 label {
-    color: #61afef;
+    color: #d8dee9;
     margin-bottom: 10px;
+}
+
+.input-fps {
+    max-width: 50px;
+
 }
 
 textarea {
@@ -57,34 +62,106 @@ button {
 
 .output-container {
     background-color: #282c34;
-    padding: 20px;
     border-radius: 8px;
+    scrollbar-color: #6c757d #3a3f47;
+}
+
+
+.code-text-field {
+    padding: 1em;
+    margin-top: 0;
+    white-space: pre;
+    max-height: 200px;
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-color: #6c757d #3a3f47;
+    word-wrap: normal; /* Prevent wrapping so content only scrolls horizontally */
+}
+
+
+.code-text-field {
+    overflow-x: auto;
+    scrollbar-color: #6c757d #3a3f47;
+}
+
+/* Hide the scrollbar by default */
+.code-text-field ::-webkit-scrollbar {
+    height: 10px;
+    width: 0;
+}
+
+/* Scrollbar track */
+.code-text-field::-webkit-scrollbar-track {
+    background: #3a3f47;
+    border-radius: 8px;
+}
+
+/* Scrollbar thumb */
+.code-text-field::-webkit-scrollbar-thumb {
+    background: #6c757d;
+    border-radius: 8px;
+    height: 8px;
+}
+
+/* Hover effect on the thumb */
+.code-text-field::-webkit-scrollbar-thumb:hover {
+    background: #5a6268;
+}
+
+/* Show scrollbar when the content overflows */
+.code-text-field:active::-webkit-scrollbar,
+.code-text-field:hover::-webkit-scrollbar {
+    width: 8px;
+}
+
+.output-container-top-bar {
+    background-color: #000000;
+    padding: .5em 1em;
+    font-size: small;
+    display: flex;
+    justify-content: right;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 code {
     color: #d8dee9;
 }
 
-.copy-button {
-    visibility: hidden;
+.copy-container {
+    display: flex;
+    cursor: pointer;
+}
+
+.copy-container:hover {
+    color: #d8dee9;
+}
+
+.copy-button-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copy-button-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .25rem;
 }
 
 .notification {
     position: fixed;
-    top: 60%;
-    left: 50%;
+    top: 40px;
+    right: 0;
     transform: translate(-50%, -50%);
     background-color: #8dd088;
-    color: black;
+    color: white;
     padding: 15px;
     border-radius: 8px;
     opacity: 0.8;
     transition: opacity 0.3s ease-in-out;
     z-index: 999;
-}
-
-.code-text-field {
-    margin-top: 0;
-    margin-bottom: 0;
-    white-space: pre;
 }

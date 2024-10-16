@@ -7,9 +7,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 
     <script>
-        const FPS = 30;
+        let FPS = 30;
 
         const processTracklist = (input) => {
+            FPS = document.getElementById('inputFPS').value;
+            console.log(FPS);
             let outputString = '';
 
             input = input.trim();
@@ -57,13 +59,14 @@
 
             const inputTextArea = document.getElementById('inputTextArea');
             const processButton = document.getElementById('processButton');
-            const copyButton = document.getElementById('copyButton');
 
             processButton.addEventListener('click', () => {
                 const output = processTracklist(inputTextArea.value);
+                const outputDivContainer = document.getElementById('outputDivContainer');
+
+                outputDivContainer.style.display = 'block';
                 outputDiv.innerHTML = escapeHtml(output);
                 hljs.highlightElement(outputDiv);
-                copyButton.style.visibility = 'visible';
             });
         });
 
@@ -74,6 +77,7 @@
             navigator.clipboard.writeText(textToCopy)
                 .then(() => {
                     showNotification('Result copied to clipboard!', 'success');
+                    showCopiedMessage('Copied!');
                 })
                 .catch(err => {
                     showNotification(err, 'error');
@@ -100,23 +104,59 @@
             }, 1000);
         }
 
+        function showCopiedMessage(message) {
+            const copyButtonTextContainer = document.getElementById('copyButtonText');
+            const copyIcon = document.getElementById('copyIcon');
+            const checkmarkIcon = document.getElementById('checkmarkIcon');
+
+            const originalText = copyButtonTextContainer.innerText;
+            copyIcon.style.display = 'none';
+            checkmarkIcon.style.display = 'block';
+            copyButtonTextContainer.innerText = message;
+
+            setTimeout(() => {
+                setTimeout(() => {
+                    copyButtonTextContainer.innerText = originalText;
+                    copyIcon.style.display = 'block';
+                    checkmarkIcon.style.display = 'none';
+                }, 300);
+            }, 1000);
+        }
+
     </script>
 </head>
 <link href="/css/style.css" rel="stylesheet" type="text/css" />
 
 <body>
+    <div class="container">
+        <label for="inputFPS">Framerate:</label>
+        <input type="number" id="inputFPS" name="inputFPS" class="input-fps" min="1" value="30" placeholder="30">
+        <br>
+        <label for="inputTextArea">Input:</label>
+        <textarea id="inputTextArea" name="tracklist" rows="10" cols="50" placeholder="Tracklist"></textarea>
+        <button id="processButton">Process</button>
 
-<div class="container">
-    <label for="inputTextArea">Input:</label>
-    <textarea id="inputTextArea" name="tracklist" rows="10" cols="50" placeholder="Tracklist"></textarea>
-    <button id="processButton">Process</button>
-
-    <p>Result:</p>
-    <div class="output-container">
-        <pre id="outputDiv" class="code-text-field javascript"></pre> <!-- Changed to <pre> for preserving line breaks -->
+        <div id="outputDivContainer" style="display: none;">
+            <p>Result:</p>
+            <div class="output-container">
+                <div class="output-container-top-bar">
+                    <div class="copy-container" id="copyButton" onclick="copyToClipboard()">
+                        <div class="copy-button-icon">
+                            <svg class="copy-icon" id="copyIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.5 14H19C20.1046 14 21 13.1046 21 12V5C21 3.89543 20.1046 3 19 3H12C10.8954 3 10 3.89543 10 5V6.5M5 10H12C13.1046 10 14 10.8954 14 12V19C14 20.1046 13.1046 21 12 21H5C3.89543 21 3 20.1046 3 19V12C3 10.8954 3.89543 10 5 10Z" stroke="#abb2bf" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg class="checkmark-icon" id="checkmarkIcon" style="display: none;" viewBox="0 0 415.582 415.582">
+                                <path d="M411.47 96.426l-46.319-46.32c-5.482-5.482-14.371-5.482-19.853 0l-192.95 192.952-82.066-82.064c-5.48-5.482-14.37-5.482-19.851 0l-46.319 46.32c-5.482 5.481-5.482 14.37 0 19.852l138.311 138.31a13.99 13.99 0 0 0 9.926 4.112c3.593 0 7.186-1.37 9.926-4.112L411.47 116.277a14.034 14.034 0 0 0 0-19.851z" fill="#abb2bf"/>
+                            </svg>
+                        </div>
+                        <div class="copy-button-text" id="copyButtonText">
+                            Copy code
+                        </div>
+                    </div>
+                </div>
+                <pre id="outputDiv" class="code-text-field javascript"></pre>
+            </div>
+        </div>
     </div>
-    <button class="copy-button" id="copyButton" onclick="copyToClipboard()">Copy To Clipboard</button>
-</div>
-
 </body>
 </html>
