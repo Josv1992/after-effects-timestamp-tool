@@ -75,7 +75,7 @@ button {
     overflow-x: auto;
     overflow-y: auto;
     scrollbar-color: #6c757d #3a3f47;
-    word-wrap: normal; /* Prevent wrapping so content only scrolls horizontally */
+    word-wrap: normal;
 }
 
 
@@ -84,31 +84,26 @@ button {
     scrollbar-color: #6c757d #3a3f47;
 }
 
-/* Hide the scrollbar by default */
 .code-text-field ::-webkit-scrollbar {
     height: 10px;
     width: 0;
 }
 
-/* Scrollbar track */
 .code-text-field::-webkit-scrollbar-track {
     background: #3a3f47;
     border-radius: 8px;
 }
 
-/* Scrollbar thumb */
 .code-text-field::-webkit-scrollbar-thumb {
     background: #6c757d;
     border-radius: 8px;
     height: 8px;
 }
 
-/* Hover effect on the thumb */
 .code-text-field::-webkit-scrollbar-thumb:hover {
     background: #5a6268;
 }
 
-/* Show scrollbar when the content overflows */
 .code-text-field:active::-webkit-scrollbar,
 .code-text-field:hover::-webkit-scrollbar {
     width: 8px;
