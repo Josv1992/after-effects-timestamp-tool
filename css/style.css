@@ -1,6 +1,34 @@
+:root{
+    --background: #d5d6d6;
+    --main-text-color: #202020;
+    --container: #bebebe;
+    --button-primary: #61afef;
+    --button-primary-hover: #86c3f5;
+    --button-primary-active: #4076a1;
+    --button-primary-text: #fefefe;
+    --button-secondary: #667dd9;
+    --button-secondary-text: #e1e1e1;
+    --button-secondary-active: #8dd088;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #282c34;
+        --main-text-color: #e1e2e2;
+        --container: #3b4252;
+        --button-primary: #61afef;
+        --button-primary-hover: #86c3f5;
+        --button-primary-active: #4076a1;
+        --button-primary-text: #fefefe;
+        --button-secondary: #667dd9;
+        --button-secondary-text: #e1e1e1;
+        --button-secondary-active: #8dd088;
+    }
+}
+
 body {
-    background-color: #282c34;
-    color: #abb2bf;
+    background-color: var(--background);
+    color: var(--main-text-color);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -19,14 +47,30 @@ body {
 .container {
     display: flex;
     flex-direction: column;
+    position: relative;
     min-width: 200px;
     width: 600px;
     max-width: 800px;
-    background-color: #3b4252;
+    background-color: var(--container);
     padding: 20px;
     margin: 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 20px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(118deg, #567480 0%, #322e6b 100%);
+    mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+    -webkit-mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 576px) {
@@ -36,7 +80,7 @@ body {
 }
 
 label {
-    color: #d8dee9;
+    color: var(--main-text-color);
     margin-bottom: 10px;
 }
 
@@ -54,8 +98,8 @@ label {
 .fps-btn {
     padding: 8px 15px;
     border: 2px solid #444;
-    background-color: #222;
-    color: #aaa;
+    background-color: var(--button-secondary);
+    color: var(--button-secondary-text);
     cursor: pointer;
     border-radius: 20em;
     transition: all 0.2s ease-in-out;
@@ -63,9 +107,9 @@ label {
 }
 
 .fps-btn.active {
-    background-color: #8dd088;
-    border-color: #8dd088;
-    color: white;
+    background-color: var(--button-secondary-active);
+    border-color: var(--button-secondary-active);
+    color: var(--main-text-color);
 }
 
 .custom-fps-btn {
@@ -83,7 +127,7 @@ label {
     border-radius: 4px;
     text-align: center;
     background-color: transparent;
-    color: white;
+    color: var(--main-text-color);
     outline: none;
     font-weight: bold;
 }
@@ -94,9 +138,8 @@ label {
 
 .fps-btn:not(.active):hover {
     border-color: #666;
-    color: white;
+    color: var(--main-text-color);
 }
-
 
 textarea {
     background-color: #2e3440;
@@ -110,8 +153,8 @@ textarea {
 }
 
 button {
-    background-color: #61afef;
-    color: #2e3440;
+    background-color: var(--button-primary);
+    color: var(--button-primary-text);
     min-width: 75px;
     max-width: 160px;
     height: 46px;
@@ -122,6 +165,15 @@ button {
     border-radius: 4px;
     font-size: 16px;
     outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--button-primary-hover);
+}
+
+button:active {
+    background-color: var(--button-primary-active)
 }
 
 .output-container {
@@ -129,7 +181,6 @@ button {
     border-radius: 8px;
     scrollbar-color: #6c757d #3a3f47;
 }
-
 
 .code-text-field {
     padding: 1em;
@@ -141,7 +192,6 @@ button {
     scrollbar-color: #6c757d #3a3f47;
     word-wrap: normal;
 }
-
 
 .code-text-field {
     overflow-x: auto;
@@ -225,6 +275,7 @@ code {
     z-index: 999;
     text-align: center;
     white-space: nowrap;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 .info-icon {
