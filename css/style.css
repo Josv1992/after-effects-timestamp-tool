@@ -40,10 +40,63 @@ label {
     margin-bottom: 10px;
 }
 
-.input-fps {
-    max-width: 50px;
-
+.fps-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.fps-options {
+    display: flex;
+    gap: 5px;
+}
+
+.fps-btn {
+    padding: 8px 15px;
+    border: 2px solid #444;
+    background-color: #222;
+    color: #aaa;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    font-weight: bold;
+}
+
+.fps-btn.active {
+    background-color: #8dd088;
+    border-color: #8dd088;
+    color: white;
+}
+
+.custom-fps-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+}
+
+.input-fps {
+    width: 50px;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    font-weight: bold;
+}
+
+.input-fps.hidden {
+    display: none;
+}
+
+.fps-btn:not(.active):hover {
+    border-color: #666;
+    color: white;
+}
+
 
 textarea {
     background-color: #2e3440;
@@ -159,8 +212,8 @@ code {
 .notification {
     position: fixed;
     top: 40px;
-    right: 0;
-    transform: translate(-50%, -50%);
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #8dd088;
     color: white;
     padding: 15px;
@@ -168,15 +221,10 @@ code {
     opacity: 0.8;
     transition: opacity 0.3s ease-in-out;
     z-index: 999;
+    text-align: center;
+    white-space: nowrap;
 }
 
-@media only screen and (max-width: 576px) {
-    .notification {
-        align-self: center;
-        justify-self: anchor-center;
-        transform: none;
-    }
-}
 
 /* @media only screen and (max-width: 960px) {
     .container {

@@ -12,9 +12,19 @@
 
 <body>
     <div class="container">
-        <label for="inputFPS">Framerate:</label>
-        <input type="number" id="inputFPS" name="inputFPS" class="input-fps" min="1" value="30" placeholder="30">
-        <br>
+        <div class="fps-selector">
+            <span>Framerate:</span>
+            <div class="fps-options">
+                <button type="button" class="fps-btn active" data-value="30">30 FPS</button>
+                <button type="button" class="fps-btn" data-value="60">60 FPS</button>
+                <button type="button" class="fps-btn custom-fps-btn" data-value="custom">
+                    Custom
+                    <input type="number" id="customFPS" class="input-fps hidden" min="1" placeholder="FPS">
+                </button>
+            </div>
+            <input type="hidden" id="inputFPS" name="inputFPS" value="30">
+        </div>
+        
         <label for="inputTextArea">Input:</label>
         <textarea id="inputTextArea" name="tracklist" rows="10" cols="50" placeholder="Tracklist"></textarea>
         <button id="processButton">Process</button>

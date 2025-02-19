@@ -1,4 +1,5 @@
 let FPS = 30;
+let customFPS = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const outputDiv = document.getElementById('outputDiv');
@@ -18,11 +19,42 @@ document.addEventListener("DOMContentLoaded", () => {
         outputDiv.innerHTML = escapeHtml(output);
         hljs.highlightElement(outputDiv);
     });
+
+    const fpsButtons = document.querySelectorAll(".fps-btn");
+    const customInput = document.getElementById("customFPS");
+    const hiddenInput = document.getElementById("inputFPS");
+
+    fpsButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            fpsButtons.forEach(btn => btn.classList.remove("active"));
+            button.classList.add("active");
+
+            const value = button.getAttribute("data-value");
+            if (value === "custom") {
+                customInput.classList.remove("hidden");
+                customInput.focus();
+                hiddenInput.value = "";
+                customFPS = true;
+            } else {
+                customInput.classList.add("hidden");
+                hiddenInput.value = value;
+                customFPS = false;
+            }
+        });
+    });
+
+    customInput.addEventListener("input", () => {
+        hiddenInput.value = customInput.value;
+    });
 });
 
 
 const processTracklist = (input) => {
-    FPS = document.getElementById('inputFPS').value;
+    if (customFPS) {
+        FPS = document.getElementById('customFPS').value;
+    } else {
+        FPS = document.getElementById('inputFPS').value;
+    }
     let outputString = '';
     outputString += 't = timeToFrames(); \n \n';
 
@@ -47,21 +79,40 @@ const processTracklist = (input) => {
 }
 
 const verifyInput = (input) => {
+    
+    input = input.trimEnd();
+
     if (input === '') {
         showNotification('Input is empty', 'error');
         return false;
     }
 
+    const timestampRegex = /^\d{1,2}:\d{2}(?::\d{2})?\s+.+/;
     const lines = input.split('\n');
+
+    let prevTimestamp = 0;
+
     for (let i = 0; i < lines.length; i++) {
         if (!lines[i].includes(':')) {
-            showNotification(`semicolon (:) missing on line ${i + 1}`, 'error');
+            showNotification(`semicolon (:) missing on line ${i + 1} (${lines[i]}).`, 'error');
             return false;
         }
+
+        if (!timestampRegex.test(lines[i])) {
+            showNotification(`Invalid format on line ${i + 1} (${lines[i]}). Missing tracktitle and/or artist name.`, 'error');
+            return false;
+        }
+
+        const timestamp = convertTimeToFrames(lines[i].split(' ')[0]);
+
+        if (timestamp < prevTimestamp) {
+            showNotification(`The time at line ${i + 1} (${lines[i]}) comes before the time at the next line.`, 'error');
+        }
+
+        prevTimestamp = timestamp;
     }
 
-    // TODO: Also verify that each line has a timestamp, track/artist format shouldn't matter, but lines SHOULD have "ti:me text"
-    // TODO: exclude empty lines at the end
+    
 
     return true;
 }
@@ -108,8 +159,8 @@ const showNotification = (message, type) => {
         notification.style.opacity = '0';
         setTimeout(() => {
             document.body.removeChild(notification);
-        }, 500);
-    }, 1200);
+        }, 1000);
+    }, 5000);
 }
 
 const showCopiedMessage = (message) => {
@@ -127,8 +178,8 @@ const showCopiedMessage = (message) => {
             copyButtonTextContainer.innerText = originalText;
             copyIcon.style.display = 'block';
             checkmarkIcon.style.display = 'none';
-        }, 500);
-    }, 1200);
+        }, 1000);
+    }, 2500);
 }
 
 const escapeHtml = (input) => {
