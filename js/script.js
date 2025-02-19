@@ -7,15 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const processButton = document.getElementById('processButton');
 
     processButton.addEventListener('click', () => {
+        if (!verifyInput(inputTextArea.value)) {
+            return;
+        }
+
         const output = processTracklist(inputTextArea.value);
         const outputDivContainer = document.getElementById('outputDivContainer');
-        verifyInput(inputTextArea.value);
 
         outputDivContainer.style.display = 'block';
         outputDiv.innerHTML = escapeHtml(output);
         hljs.highlightElement(outputDiv);
     });
 });
+
 
 const processTracklist = (input) => {
     FPS = document.getElementById('inputFPS').value;
@@ -43,12 +47,23 @@ const processTracklist = (input) => {
 }
 
 const verifyInput = (input) => {
+    if (input === '') {
+        showNotification('Input is empty', 'error');
+        return false;
+    }
+
     const lines = input.split('\n');
-    lines.forEach((line, index) => {
-        if (!line.includes(':')) {
-            showNotification(`semicolon (:) missing on line ${index+1}`, 'error');
-        }        
-    });
+    for (let i = 0; i < lines.length; i++) {
+        if (!lines[i].includes(':')) {
+            showNotification(`semicolon (:) missing on line ${i + 1}`, 'error');
+            return false;
+        }
+    }
+
+    // TODO: Also verify that each line has a timestamp, track/artist format shouldn't matter, but lines SHOULD have "ti:me text"
+    // TODO: exclude empty lines at the end
+
+    return true;
 }
 
 const convertTimeToFrames = (time) => {
@@ -93,8 +108,8 @@ const showNotification = (message, type) => {
         notification.style.opacity = '0';
         setTimeout(() => {
             document.body.removeChild(notification);
-        }, 300);
-    }, 1000);
+        }, 500);
+    }, 1200);
 }
 
 const showCopiedMessage = (message) => {
@@ -112,8 +127,8 @@ const showCopiedMessage = (message) => {
             copyButtonTextContainer.innerText = originalText;
             copyIcon.style.display = 'block';
             checkmarkIcon.style.display = 'none';
-        }, 300);
-    }, 1000);
+        }, 500);
+    }, 1200);
 }
 
 const escapeHtml = (input) => {

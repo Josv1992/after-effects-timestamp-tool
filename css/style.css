@@ -19,11 +19,20 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    width: 550px;
+    min-width: 200px;
+    width: 600px;
+    max-width: 800px;
     background-color: #3b4252;
     padding: 20px;
+    margin: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 10px;
+    }
 }
 
 label {
@@ -160,3 +169,17 @@ code {
     transition: opacity 0.3s ease-in-out;
     z-index: 999;
 }
+
+@media only screen and (max-width: 576px) {
+    .notification {
+        align-self: center;
+        justify-self: anchor-center;
+        transform: none;
+    }
+}
+
+/* @media only screen and (max-width: 960px) {
+    .container {
+
+    }
+} */
