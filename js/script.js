@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const processTracklist = (input) => {
     FPS = document.getElementById('inputFPS').value;
     let outputString = '';
+    outputString += 't = timeToFrames(); \n \n';
 
     input = input.trim();
 
@@ -43,19 +44,11 @@ const processTracklist = (input) => {
 
 const verifyInput = (input) => {
     const lines = input.split('\n');
-    const errors = [];
-
     lines.forEach((line, index) => {
         if (!line.includes(':')) {
-            errors.push(`semicolon missing on line ${index+1}`)
-            showNotification(`semicolon missing on line ${index+1}`, 'error')
+            showNotification(`semicolon (:) missing on line ${index+1}`, 'error');
         }        
     });
-
-    if (errors.length > 0) {
-        throw new Error(errors.join('\n'));
-    }
-
 }
 
 const convertTimeToFrames = (time) => {
@@ -93,6 +86,7 @@ const showNotification = (message, type) => {
     } else if (type === 'error') {
         notification.style.backgroundColor = '#a25656';
     }
+
     document.body.appendChild(notification);
 
     setTimeout(() => {
