@@ -107,12 +107,11 @@ const verifyInput = (input) => {
 
         if (timestamp < prevTimestamp) {
             showNotification(`The time at line ${i + 1} (${lines[i]}) comes before the time at the next line.`, 'error');
+            return false;
         }
 
         prevTimestamp = timestamp;
-    }
-
-    
+    }   
 
     return true;
 }
@@ -121,10 +120,10 @@ const convertTimeToFrames = (time) => {
     let semiColons = time.split(':').length - 1;
     if (semiColons === 1) {
         let [minutes, seconds] = time.split(':');
-        return parseInt(minutes) * 60 * FPS + parseInt(seconds) * FPS;
+        return Math.round(parseInt(minutes) * 60 * FPS + parseInt(seconds) * FPS);
     } else if (semiColons === 2) {
         let [hours, minutes, seconds] = time.split(':');
-        return (parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds)) * FPS;
+        return Math.round((parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds)) * FPS);
     }
 }
 
