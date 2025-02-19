@@ -25,12 +25,21 @@
             <input type="hidden" id="inputFPS" name="inputFPS" value="30">
         </div>
         
-        <label for="inputTextArea">Input:</label>
+        <label for="inputTextArea">Input:
+            <span class="info-icon" data-tooltip="Paste your tracklist here. Each new line should contain a timestamp followed by a space and then the song and/or artist name.">
+                ⓘ
+            </span>
+        </label>
         <textarea id="inputTextArea" name="tracklist" rows="10" cols="50" placeholder="Tracklist"></textarea>
         <button id="processButton">Process</button>
 
         <div id="outputDivContainer" style="display: none;">
-            <p>Result:</p>
+            <p>
+            Result:
+            <span class="info-icon" data-tooltip="This is the processed tracklist in After Effects scripting format. Copy it and paste it to your After Effects text layer to have the text change at each timestamp">
+                ⓘ
+            </span>
+            </p>
             <div class="output-container">
                 <div class="output-container-top-bar">
                     <div class="copy-container" id="copyButton" onclick="copyToClipboard()">
