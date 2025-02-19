@@ -35,7 +35,7 @@
             return outputString;
         }
 
-        function convertTimeToFrames(time) {
+        const convertTimeToFrames = (time) => {
             let semiColons = time.split(':').length - 1;
             if (semiColons === 1) {
                 let [minutes, seconds] = time.split(':');
@@ -46,7 +46,7 @@
             }
         }
 
-        function escapeHtml(input) {
+        const escapeHtml = (input) => {
             return input
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
@@ -71,7 +71,7 @@
             });
         });
 
-        function copyToClipboard() {
+        const copyToClipboard = () => {
             const outputDiv = document.getElementById('outputDiv');
             const textToCopy = outputDiv.innerText;
 
@@ -85,7 +85,7 @@
                 });
         }
 
-        function showNotification(message, type) {
+        const showNotification = (message, type) => {
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.innerText = message;
@@ -105,7 +105,7 @@
             }, 1000);
         }
 
-        function showCopiedMessage(message) {
+        const showCopiedMessage = (message) => {
             const copyButtonTextContainer = document.getElementById('copyButtonText');
             const copyIcon = document.getElementById('copyIcon');
             const checkmarkIcon = document.getElementById('checkmarkIcon');
