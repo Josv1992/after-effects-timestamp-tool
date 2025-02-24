@@ -58,6 +58,30 @@ body {
     align-items: center;
 }
 
+@keyframes gradientRotate {
+    0% {
+        background: linear-gradient(0deg, var(--gradient-1), var(--gradient-2));
+    }
+    25% {
+        background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
+    }
+    50% {
+        background: linear-gradient(180deg, var(--gradient-1), var(--gradient-2));
+    }
+    75% {
+        background: linear-gradient(270deg, var(--gradient-1), var(--gradient-2));
+    }
+    100% {
+        background: linear-gradient(360deg, var(--gradient-1), var(--gradient-2));
+    }
+}
+
+@keyframes gradientGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -79,13 +103,18 @@ body {
     inset: 0;
     border-radius: inherit;
     padding: 2px;
-    background: linear-gradient(118deg, var(--gradient-1) 0%, var(--gradient-2) 100%);
+    background: linear-gradient(118deg, var(--gradient-1), var(--gradient-2));
+    background-size: 300% 300%;
     mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
     -webkit-mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    animation: gradientGlow 3s linear infinite;
+
 }
+
 
 @media only screen and (max-width: 576px) {
     .container {
