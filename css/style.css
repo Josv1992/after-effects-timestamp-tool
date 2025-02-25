@@ -58,24 +58,6 @@ body {
     align-items: center;
 }
 
-@keyframes gradientRotate {
-    0% {
-        background: linear-gradient(0deg, var(--gradient-1), var(--gradient-2));
-    }
-    25% {
-        background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
-    }
-    50% {
-        background: linear-gradient(180deg, var(--gradient-1), var(--gradient-2));
-    }
-    75% {
-        background: linear-gradient(270deg, var(--gradient-1), var(--gradient-2));
-    }
-    100% {
-        background: linear-gradient(360deg, var(--gradient-1), var(--gradient-2));
-    }
-}
-
 @keyframes gradientGlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -112,7 +94,6 @@ body {
     pointer-events: none;
     transition: opacity 0.5s ease-in-out;
     animation: gradientGlow 3s linear infinite;
-
 }
 
 
@@ -139,15 +120,33 @@ label {
 }
 
 .fps-btn {
+    position: relative;
     padding: 8px 15px;
-    border: 2px solid #444;
     background-color: var(--button-secondary);
     color: var(--button-secondary-text);
     cursor: pointer;
     border-radius: 20em;
     transition: all 0.2s ease-in-out;
     font-weight: bold;
+    overflow: hidden;
 }
+
+.fps-btn.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(118deg, green, rgb(20, 219, 169));
+    background-size: 300% 300%;
+    mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+    -webkit-mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: gradientGlow 3s linear infinite;
+}
+
 
 .fps-btn.active {
     background-color: var(--button-secondary-active);
